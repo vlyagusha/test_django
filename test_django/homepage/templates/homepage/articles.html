@@ -3,19 +3,35 @@
 {% block body %}
     <h1>Hello, articles!</h1>
 
-    <ul class="list-group">
-        {% for num in articles %}
-            {% cycle val1 val2 as val silent %}
-            <li class="list-group-item {% cycle 'list-group-item-primary' 'list-group-item-secondary' %}">Article #{{num}} {{ val|safe }}</li>
-        {% endfor %}
+    {% for num in articles %}
+        <h3>Article #{{num}} {{ val|safe }}</h3>
+        
+    {% empty %}
+        <h3>Sorry, no articles</h3>
+    {% endfor %}
+    
+    {% autoescape off %}
+        {% firstof val1 val2%}
+    {% endautoescape %}
 
-        {% cycle 'dark' 'danger' as theme silent %}
+    <pre>
+        {{ obj.foo }}
+        {{ obj.data.spam }}
+        {{ obj.list.2 }}
+        {{ 'spam'|add:'eggs' }}
+        {{ 7|add:'3' }}
+        You have {{ num_cherries }} cherr{{ num_cherries|pluralize:'y,ies' }}
+    </pre>
 
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-
-        {% comment %}
-            <li class="list-group-item">Dapibus ac facilisis in</li>
-        {% endcomment %}
-    </ul>
+    <div>
+        <ul class="list-group">
+            {% for a_date in dates %}
+                {% ifchanged %}
+                    <li class="list-group-item">{{ a_date|date:"SHORT_DATE_FORMAT" }}</li>
+                {% endifchanged %}
+                <small>{{ a_date|date:"TIME_FORMAT" }}</small>
+            {% endfor %}
+        </ul>
+    </div>
 
 {% endblock %}
