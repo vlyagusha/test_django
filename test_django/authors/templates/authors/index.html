@@ -5,5 +5,12 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Authors body</h1>
+    <h1>Authors:</h1>
+    <div>
+        <ul class="list-group">
+            {% for author in authors %}
+                <li class="list-group-item">{{ author.id }}. {{ author }}</li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
