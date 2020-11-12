@@ -1,3 +1,6 @@
+from datetime import timedelta
+
+from django.utils import timezone
 from django.db import models
 from django.db.models.signals import post_save
 
@@ -88,6 +91,10 @@ class Article(models.Model):
         Publisher,
         on_delete=models.CASCADE
     )
+
+    @property
+    def added_recently(self):
+        return self.pub_date > timezone.localdate() - timedelta(days=1)
 
     def __str__(self):
         return f'{self.title} on {self.pub_date}'
