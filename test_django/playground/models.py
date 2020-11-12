@@ -1,5 +1,8 @@
 from django.db import models
+from django.db.models.signals import post_save
 
+
+UNIVERSITY_DOMAIN = 'ourdomain.edu'
 
 # Create your models here.
 
@@ -34,8 +37,8 @@ class StudentInfo(models.Model):
         verbose_name = "StudentInfo"
         verbose_name_plural = "StudentInfos"
 
-    pass_id = models.CharField(unique=True, max_length=50)
-    email = models.EmailField()
+    pass_id = models.CharField(unique=True, null=True, max_length=50)
+    email = models.EmailField(unique=True)
     student = models.OneToOneField(
         Student,
         on_delete=models.CASCADE,
@@ -46,6 +49,16 @@ class StudentInfo(models.Model):
     def __str__(self):
         return f'{self.pass_id}'
 
+
+def create_student_info(instance, created, **kwargs):
+    if not created:
+        return
+    count = Student.objects.filter(first_name=instance.first_name).count()
+    new_email = f'{instance.first_name.lower()}{count}@{UNIVERSITY_DOMAIN}'
+    StudentInfo.objects.create(student=instance, email=new_email)
+
+
+post_save.connect(create_student_info, sender=Student)
 
 #
 
