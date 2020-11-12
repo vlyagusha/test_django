@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from authors.models import Author
+from .models import Author
 
 
 @admin.register(Author)
