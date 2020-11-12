@@ -1,8 +1,8 @@
 from django.db import models
 from django.db.models.signals import post_save
 
-
 UNIVERSITY_DOMAIN = 'ourdomain.edu'
+
 
 # Create your models here.
 
@@ -60,6 +60,7 @@ def create_student_info(instance, created, **kwargs):
 
 post_save.connect(create_student_info, sender=Student)
 
+
 #
 
 class Publisher(models.Model):
@@ -91,6 +92,7 @@ class Article(models.Model):
     def __str__(self):
         return f'{self.title} on {self.pub_date}'
 
+
 #
 
 
@@ -100,7 +102,7 @@ class Category(models.Model):
         verbose_name_plural = "Categories"
 
     title = models.CharField(max_length=50)
-    
+
     def __str__(self):
         return self.title
 
